@@ -3,10 +3,9 @@
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
-define e = Character("Eileen", color = "#FFFFFF", image="eileen")
+define e = Character("Eileen", color = "#FFFFFF")
 default eileen_affection = 0
 default player_name = "Player"
-
 # The game starts here.
 
 label start:
@@ -21,18 +20,18 @@ label start:
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    show eileen vhappy
+    show eileen happy
 
     # These display lines of dialogue.
 
-    e "You've created a new Ren'Py game." 
+    e "You've created a new Ren'Py game."
 
     e "Once you add a story, pictures, and music, you can release it to the world!"
 
     # Ask for player name
     $ player_name = renpy.input("What is your name?")
-    $ player_name = player_name.strip()
-    e "Nice to meet you, [player_name]!"
+    $ player_name = player_name.strip
+    e "Nice to meet you, %(player_name)!"
 
     # This is how to implement choice menus with flags
 
