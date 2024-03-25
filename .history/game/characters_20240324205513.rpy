@@ -1,0 +1,1 @@
+# Characters are defined here

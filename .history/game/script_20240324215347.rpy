@@ -91,9 +91,9 @@ label start:
     
     label ending_evaluation:
         "Current affection value is [e.affection]"
-        if e.affection >= 2:
+        if e.get_affection_value >= 2:
             jump eileen_good_ending
-        elif e.affection == 1:
+        elif e.get_affection_value == 1:
             jump eileen_okay_ending
         else:
             jump eileen_bad_ending

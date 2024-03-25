@@ -18,7 +18,7 @@ label start:
 
     # These display lines of dialogue.
 
-    # Must have .[character class] after character/variable name or else renpy will read the wrong object
+    # Must have .()
     e.c "You've created a new Ren'Py game." 
 
     e.c "Once you add a story, pictures, and music, you can release it to the world!"
@@ -90,10 +90,10 @@ label start:
                 e.c "Incorrect"
     
     label ending_evaluation:
-        "Current affection value is [e.affection]"
-        if e.affection >= 2:
+        "Current affection value is [eileen_affection]"
+        if eileen_affection >= 2:
             jump eileen_good_ending
-        elif e.affection == 1:
+        elif eileen_affection == 1:
             jump eileen_okay_ending
         else:
             jump eileen_bad_ending

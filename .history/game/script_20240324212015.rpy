@@ -18,12 +18,9 @@ label start:
 
     # These display lines of dialogue.
 
-    # Must have .[character class] after character/variable name or else renpy will read the wrong object
     e.c "You've created a new Ren'Py game." 
 
     e.c "Once you add a story, pictures, and music, you can release it to the world!"
-
-    $ renpy.notify("This is an example of a notification")
 
     # Ask for player name
     # $ means following line is a python snippet
@@ -35,7 +32,7 @@ label start:
 
     label choices:
         default flag = False
-        e.c "Yes or no?"
+        e "Yes or no?"
     menu:
         "Yes":
             jump choices1_a
@@ -43,17 +40,17 @@ label start:
             jump choices1_b
 
     label choices1_a:
-        e.c "You selected yes and flag is set to true"
+        e "You selected yes and flag is set to true"
         $ flag = True
         jump choices1_common
     
     label choices1_b:
-        e.c "You selected no and flag remains false"
+        e "You selected no and flag remains false"
         $ flag = False
         jump choices1_common
 
     label choices1_common:
-        e.c "This is text that follows the choice related dialogue"
+        e "This is text that follows the choice related dialogue"
 
     # This is how to implement flags
 
@@ -67,33 +64,36 @@ label start:
     # The following block is an example of how to implement flags to determine routes
 
     label romance_choices:
-        e.c "First or second?"
+        e "First or second?"
         menu:
             "First":
-                e.c "Correct"
-                $ e.affection_up(1)
+                e "Correct"
+                $ eileen_affection += 1
+                "Affection value has risen by 1"
             "Second":
-                e.c "Incorrect"
-        e.c "Red or blue?"
+                e "Incorrect"
+        e "Red or blue?"
         menu:
             "Red":
-                e.c "Correct"
-                $ e.affection_up(1)
+                e "Correct"
+                $ eileen_affection += 1
+                "Affection value has risen by 1"
             "Blue":
-                e.c "Incorrect"
-        e.c "Apple or banana?"
+                e "Incorrect"
+        e "Apple or banana?"
         menu:
             "Apple":
-                e.c "Correct"
-                $ e.affection_up(1)
+                e "Correct"
+                $ eileen_affection += 1
+                "Affection value has risen by 1"
             "Banana":
-                e.c "Incorrect"
+                e "Incorrect"
     
     label ending_evaluation:
-        "Current affection value is [e.affection]"
-        if e.affection >= 2:
+        "Current affection value is [eileen_affection]"
+        if eileen_affection >= 2:
             jump eileen_good_ending
-        elif e.affection == 1:
+        elif eileen_affection == 1:
             jump eileen_okay_ending
         else:
             jump eileen_bad_ending
