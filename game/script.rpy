@@ -1,9 +1,4 @@
-# The script of the game goes in this file.
-
-# Declare characters used by this game. The color argument colorizes the
-# name of the character.
-
-
+﻿# The script of the game goes in this file.
 # The game starts here.
 
 label start:
@@ -17,6 +12,7 @@ default eileen_affection = 0
 default player_name = "???"
 
 label template_stuff:
+
 
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
@@ -32,26 +28,26 @@ label template_stuff:
 
     # These display lines of dialogue.
 
-    e "The character affections are [affection['renault']] for renault and [affection['crane']] for crane"
-    $ affection['renault'] += 20
-    $ affection['crane'] += 40
-    e "The character affections are [affection['renault']] for renault and [affection['crane']] for crane"
-
     e "You've created a new Ren'Py game." 
+    # Must have .[character class] after character/variable name or else renpy will read the wrong object
+    e.c "You've created a new Ren'Py game." 
 
-    e "Once you add a story, pictures, and music, you can release it to the world!"
+    e.c "Once you add a story, pictures, and music, you can release it to the world!"
+
+    $ renpy.notify("This is an example of a notification")
 
     # Ask for player name
+    # $ means following line is a python snippet
     $ player_name = renpy.input("What is your name?")
     $ player_name = player_name.strip()
-    e "Nice to meet you, [player_name]!"
-    main_character "Nice to meet you too, [character.e.name]!"
-    
+    e.c "Nice to meet you, [player_name]!"
+    player.c "Nice to meet you too!"
+
     # This is how to implement choice menus with flags
 
     label choices:
         default flag = False
-        e "Yes or no?"
+        e.c "Yes or no?"
     menu:
         "Yes":
             jump choices1_a
@@ -59,17 +55,17 @@ label template_stuff:
             jump choices1_b
 
     label choices1_a:
-        e "You selected yes and flag is set to true"
+        e.c "You selected yes and flag is set to true"
         $ flag = True
         jump choices1_common
     
     label choices1_b:
-        e "You selected no and flag remains false"
+        e.c "You selected no and flag remains false"
         $ flag = False
         jump choices1_common
 
     label choices1_common:
-        e "This is text that follows the choice related dialogue"
+        e.c "This is text that follows the choice related dialogue"
 
     # This is how to implement flags
 
@@ -83,36 +79,33 @@ label template_stuff:
     # The following block is an example of how to implement flags to determine routes
 
     label romance_choices:
-        e "First or second?"
+        e.c "First or second?"
         menu:
             "First":
-                e "Correct"
-                $ eileen_affection += 1
-                "Affection value has risen by 1"
+                e.c "Correct"
+                $ e.affection_up(1)
             "Second":
-                e "Incorrect"
-        e "Red or blue?"
+                e.c "Incorrect"
+        e.c "Red or blue?"
         menu:
             "Red":
-                e "Correct"
-                $ eileen_affection += 1
-                "Affection value has risen by 1"
+                e.c "Correct"
+                $ e.affection_up(1)
             "Blue":
-                e "Incorrect"
-        e "Apple or banana?"
+                e.c "Incorrect"
+        e.c "Apple or banana?"
         menu:
             "Apple":
-                e "Correct"
-                $ eileen_affection += 1
-                "Affection value has risen by 1"
+                e.c "Correct"
+                $ e.affection_up(1)
             "Banana":
-                e "Incorrect"
+                e.c "Incorrect"
     
     label ending_evaluation:
-        "Current affection value is [eileen_affection]"
-        if eileen_affection >= 2:
+        "Current affection value is [e.affection]"
+        if e.affection >= 2:
             jump eileen_good_ending
-        elif eileen_affection == 1:
+        elif e.affection == 1:
             jump eileen_okay_ending
         else:
             jump eileen_bad_ending
