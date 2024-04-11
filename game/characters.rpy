@@ -11,11 +11,11 @@ init python:
         
         def affection_up(self, amount):
             self.affection += amount
-            renpy.notify(f"Affection up by {amount}")
+            renpy.notify(f"{self.name} affection up")
             
         def affection_down(self, amount):
             self.affection -= amount
-            renpy.notify(f"Affection down by {amount}" )
+            renpy.notify(f"{self.name} affection down" )
             
 
     class Player:
