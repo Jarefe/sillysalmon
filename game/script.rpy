@@ -1,15 +1,22 @@
-﻿# The script of the game goes in this file.
+# The script of the game goes in this file.
 
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
-define e = Character("Eileen", color = "#FFFFFF", image="eileen")
-default eileen_affection = 0
-default player_name = "Player"
 
 # The game starts here.
 
 label start:
+    jump template_stuff
+
+#------------------------------------Boiler plate code to reference--------------------------------------------------
+
+define character.e = Character("Eileen", color = "#FFFFFF", image="eileen")
+define character.main_character = Character("player_name", dynamic = True)
+default eileen_affection = 0
+default player_name = "???"
+
+label template_stuff:
 
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
@@ -25,6 +32,11 @@ label start:
 
     # These display lines of dialogue.
 
+    e "The character affections are [affection['renault']] for renault and [affection['crane']] for crane"
+    $ affection['renault'] += 20
+    $ affection['crane'] += 40
+    e "The character affections are [affection['renault']] for renault and [affection['crane']] for crane"
+
     e "You've created a new Ren'Py game." 
 
     e "Once you add a story, pictures, and music, you can release it to the world!"
@@ -33,7 +45,8 @@ label start:
     $ player_name = renpy.input("What is your name?")
     $ player_name = player_name.strip()
     e "Nice to meet you, [player_name]!"
-
+    main_character "Nice to meet you too, [character.e.name]!"
+    
     # This is how to implement choice menus with flags
 
     label choices:
