@@ -7,13 +7,29 @@ init python:
         def __init__(self, Character, name, affection):
             self.c = Character
             self.name = name
-            self.affection = affection
+            self._affection = affection # private attribute (_ is naming convention for private attribute)
         
+        @property
+        def affection(self):
+            """Gets the actor's affection level."""
+            return self._affection
+        
+        @affection.setter
+        def affection(self, value):
+            """Sets the actor's affection level, ensuring it stays within a 0-100 range."""
+            if not isinstance(value, int):
+                raise ValueError("Affection must be an integer")
+            self._affection = max(min(value, 100), 0)  # Enforce range within 0-100
+            
         def affection_up(self, amount):
+            if not isinstance(amount, int):
+                raise ValueError("Amount must be an integer")
             self.affection += amount
             renpy.notify(f"{self.name} affection up")
             
         def affection_down(self, amount):
+            if not isinstance(amount, int):
+                raise ValueError("Amount must be an integer")
             self.affection -= amount
             renpy.notify(f"{self.name} affection down" )
             
@@ -21,10 +37,19 @@ init python:
     class Player:
         def __init__(self, Character, name):
             self.c = Character
-            self.name = "Default name"
+            self.name = name
+
+        @property
+        def name(self):
+            """Gets the player's name."""
+            return self._name
             
-        def change_name(self, new_name):
-            self.name = new_name
+        @name.setter
+        def name(self, value):
+            """Sets the player's name."""
+            if not isinstance(value, str) or not value:
+                raise ValueError("Name must be a non-empty string")
+            self._name = value
 
 # define e = Character("Eileen", color = "#FFFFFF", image="eileen")
 
