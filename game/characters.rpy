@@ -15,7 +15,7 @@ init python:
     class Actor:
         # must pass in (self, Character) at minimum
         def __init__(self, Character, name, affection):
-            self.c = Character
+            self.character = Character
             self.name = name
             self._affection = affection # private attribute (_ is naming convention for private attribute)
             logger.debug(f"Actor initialized: {self.name} with affection {self._affection}")
@@ -60,7 +60,7 @@ init python:
 
     class Player:
         def __init__(self, Character, name):
-            self.c = Character
+            self.character = Character
             self.name = name
             logger.debug(f"Player initialized: {self.name}")
 
@@ -86,6 +86,6 @@ init python:
 define e = Actor(Character("Eileen", color = "#FFFFFF", image="eileen"),"Eileen", 0)
 
 # characters are initialized at the start of the game, player character will be initialized dynamically in script.rpy due to its dynamic nature (custom name input)
-define renault = Actor(Character("Renault"), "Renault", 0)
-define crane = Actor(Character("Crane"), "Crane", 0)
-define ephraim = Actor(Character("Ephraim"), "Ephraim", 0)
+define renault = Actor(Character("Renault", color = "#0000FF", image="renault"), "Renault", 0)
+define crane = Actor(Character("Crane", color = "#FFFF00", image="crane"), "Crane", 0)
+define ephraim = Actor(Character("Ephraim", color = "#FFFFFF"), "Ephraim", 0)
