@@ -86,6 +86,6 @@ init python:
 define e = Actor(Character("Eileen", color = "#FFFFFF", image="eileen"),"Eileen", 0)
 
 # characters are initialized at the start of the game, player character will be initialized dynamically in script.rpy due to its dynamic nature (custom name input)
-define renault = Actor(Character("Renault", color = "#0000FF", image="renault"), "Renault", 0)
-define crane = Actor(Character("Crane", color = "#FFFF00", image="crane"), "Crane", 0)
-define ephraim = Actor(Character("Ephraim", color = "#FFFFFF"), "Ephraim", 0)
+define renault = Actor(Character("Renault", color = "#0000FF", image="renault", cps=5), "Renault", 0)
+define crane = Actor(Character("Crane", color = "#FFFF00", image="crane", cps=10), "Crane", 0)
+define ephraim = Actor(Character("Ephraim", color = "#FFFFFF", cps=20), "Ephraim", 0)
