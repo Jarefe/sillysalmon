@@ -14,10 +14,11 @@ init python:
 
     class Actor:
         # must pass in (self, Character) at minimum
-        def __init__(self, Character, name, affection):
+        def __init__(self, Character, name, affection, default_image_tag):
             self.character = Character
             self.name = name
             self._affection = affection # private attribute (_ is naming convention for private attribute)
+            self.default_image_tag = default_image_tag
             logger.debug(f"Actor initialized: {self.name} with affection {self._affection}")
         
         @property
@@ -56,7 +57,39 @@ init python:
                 logger.debug(f"Decreased affection for {self.name} by {amount}")
             except Exception as e:
                 logger.error(f"Error decreasing affection for {self.name}: {e}")
-            
+        
+        def dialogue(self, dialogue_lines, emotion=None, text_speeds=None):
+            """
+            Displays dialogue for this actor with optional emotion, text speeds, and transform.
+            Includes error handling for mismatched text_speeds array length when text speeds are provided.
+            If no text speeds are provided, the character's default text speed is used.
+
+            :param dialogue_lines: A list of dialogue lines for the actor.
+            :param emotion: An optional emotion to display the character with.
+            :param text_speeds: An optional list of text speeds corresponding to each dialogue line.
+                                If None, the character's default text speed is used.
+            """
+            # Error handling for mismatched text_speeds array length
+            if text_speeds is not None and len(text_speeds) != len(dialogue_lines):
+                logger.error(f"Mismatch in number of text speeds ({len(text_speeds)}) and dialogue lines ({len(dialogue_lines)}) for {self.name}.")
+                raise ValueError("Mismatch in number of text speeds and dialogue lines.")
+
+            # TODO: implement transform handling for future potential character animation or alterations
+
+            # Use the default image tag if no emotion is provided
+            image_tag = self.default_image_tag if emotion is None else f"{self.name} {emotion}"
+
+            renpy.show(image_tag)
+
+            # Display each line of dialogue with the specified text speed or default if not provided
+            for index, line in enumerate(dialogue_lines):
+                if text_speeds and index < len(text_speeds) and text_speeds[index] is not None:
+                    # Apply the text speed using a text tag at the start of the line if specified
+                    line_with_speed = "{cps=%d}%s" % (text_speeds[index], line)
+                    renpy.say(self.character, line_with_speed)  # Use self.character for the speaking character
+                else:
+                    # Use the character's default text speed
+                    renpy.say(self.character, line)  # Use self.character for the speaking character
 
     class Player:
         def __init__(self, Character, name):
@@ -81,11 +114,7 @@ init python:
                 logger.error(f"Error setting player name: {e}")
                 raise
 
-# define e = Character("Eileen", color = "#FFFFFF", image="eileen")
-
-define e = Actor(Character("Eileen", color = "#FFFFFF", image="eileen"),"Eileen", 0)
-
 # characters are initialized at the start of the game, player character will be initialized dynamically in script.rpy due to its dynamic nature (custom name input)
-define renault = Actor(Character("Renault", color = "#0000FF", image="renault", cps=5), "Renault", 0)
-define crane = Actor(Character("Crane", color = "#FFFF00", image="crane", cps=10), "Crane", 0)
-define ephraim = Actor(Character("Ephraim", color = "#FFFFFF", cps=20), "Ephraim", 0)
+define renault = Actor(Character("Renault", color = "#0000FF", image="renault", cps=5), "Renault", 0, "renault")
+define crane = Actor(Character("Crane", color = "#FFFF00", image="crane", cps=10), "Crane", 0, "crane")
+define ephraim = Actor(Character("Ephraim", color = "#FFFFFF", cps=20), "Ephraim", 0, "ephraim")
