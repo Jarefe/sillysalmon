@@ -2,6 +2,8 @@
 ########################################
 cache/
 saves/
+.history/
+.vscode/
 
 
 # Compiled source #
