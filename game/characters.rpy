@@ -2,12 +2,23 @@
 
 # This block of python code runs when the game first initializes
 init python: 
+    import renpy.exports as renpy
+    # Enable logging for debugging
+    import logging
+    logger = logging.getLogger("game")
+    logger.setLevel(logging.DEBUG)
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
     class Actor:
         # must pass in (self, Character) at minimum
         def __init__(self, Character, name, affection):
             self.c = Character
             self.name = name
             self._affection = affection # private attribute (_ is naming convention for private attribute)
+            logger.debug(f"Actor initialized: {self.name} with affection {self._affection}")
         
         @property
         def affection(self):
@@ -17,27 +28,41 @@ init python:
         @affection.setter
         def affection(self, value):
             """Sets the actor's affection level, ensuring it stays within a 0-100 range."""
-            if not isinstance(value, int):
-                raise ValueError("Affection must be an integer")
-            self._affection = max(min(value, 100), 0)  # Enforce range within 0-100
+            try:
+                if not isinstance(value, int):
+                    raise ValueError("Affection must be an integer")
+                self._affection = max(min(value, 100), 0)  # Enforce range within 0-100
+                logger.debug(f"Set affection for {self.name} to {self._affection}")
+            except Exception as e:
+                logger.error(f"Error setting affection for {self.name}: {e}")
+                raise
             
         def affection_up(self, amount):
-            if not isinstance(amount, int):
-                raise ValueError("Amount must be an integer")
-            self.affection += amount
-            renpy.notify(f"{self.name} affection up")
+            try:
+                if not isinstance(amount, int):
+                    raise ValueError("Amount must be an integer")
+                self.affection += amount
+                renpy.notify(f"{self.name} affection up")
+                logger.debug(f"Increased affection for {self.name} by {amount}")
+            except Exception as e:
+                logger.error(f"Error increasing affection for {self.name}: {e}")
             
         def affection_down(self, amount):
-            if not isinstance(amount, int):
-                raise ValueError("Amount must be an integer")
-            self.affection -= amount
-            renpy.notify(f"{self.name} affection down" )
+            try:
+                if not isinstance(amount, int):
+                    raise ValueError("Amount must be an integer")
+                self.affection -= amount
+                renpy.notify(f"{self.name} affection down" )
+                logger.debug(f"Decreased affection for {self.name} by {amount}")
+            except Exception as e:
+                logger.error(f"Error decreasing affection for {self.name}: {e}")
             
 
     class Player:
         def __init__(self, Character, name):
             self.c = Character
             self.name = name
+            logger.debug(f"Player initialized: {self.name}")
 
         @property
         def name(self):
@@ -47,9 +72,14 @@ init python:
         @name.setter
         def name(self, value):
             """Sets the player's name."""
-            if not isinstance(value, str) or not value:
-                raise ValueError("Name must be a non-empty string")
-            self._name = value
+            try:
+                if not isinstance(value, str) or not value:
+                    raise ValueError("Name must be a non-empty string")
+                self._name = value
+                logger.debug(f"Set player name to {self._name}")
+            except Exception as e:
+                logger.error(f"Error setting player name: {e}")
+                raise
 
 # define e = Character("Eileen", color = "#FFFFFF", image="eileen")
 
