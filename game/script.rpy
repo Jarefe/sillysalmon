@@ -24,18 +24,30 @@ label introduction:
     jump gameplay
 
 label gameplay:
-    jump renault_route # Placeholder
+    "pick your route" 
+    menu:
+        "renault":
+            jump renault_route
+        "crane":
+            jump crane_route
+        "ephraim":
+            jump ephraim_route
+
 
 label renault_route:
-
+    show renault
+    renault.character "hello"
     jump end_sequence
 
 label crane_route:
-    
+    transform crane_half_size:
+        zoom 0.5
+    show crane at crane_half_size
+    crane.character "hello"
     jump end_sequence
 
 label ephraim_route:
-    
+    "not yet implemented"
     jump end_sequence
 
 label end_sequence:
